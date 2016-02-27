@@ -153,6 +153,7 @@ function addEntity(entity, data) {
 	sendJSONXMLHTTPRequest('/entity/'+ entity, data, function(){})
     //XXX: Send a XHTML Request that updates the entity you just  modified!
 	drawNextFrame(); // (but should we?) this just signals there is something to draw
+	//drawFrame(); //PLAY AROUND WITH THESE NOT SURE IF MAKES DIFFERENCE
 
 }
 
@@ -278,7 +279,7 @@ mouse.mousedraggers.push(function(x,y,clicked,e) {
 function update() {
 	//XXX: TODO Get the world from the webservice using a XMLHTTPRequest
 	sendJSONXMLHTTPRequest('/world',null,function (data){
-         //world = data; //update our world to be what we got
+         world = data; //update our world to be what we got
 		 drawNextFrame();// signal something to draw
 	 });  
     drawFrame();
