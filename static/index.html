@@ -31,7 +31,6 @@ var context = canvas.getContext("2d");
 var W = canvas.width  = window.innerWidth-6;
 var H = canvas.height = window.innerHeight-50;
 
-
 function sendJSONXMLHTTPRequest(url, objects, callback) {
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function () {
@@ -40,12 +39,10 @@ function sendJSONXMLHTTPRequest(url, objects, callback) {
 				 if (xhr.status==200) {
 					 parsed = JSON.parse(xhr.responseText);
 					 callback(parsed);
-					 //XXX: parse some JSON from the request!
-					 //XXX: Pass the data to the callback!
 				 }
 			 } 
 			 catch(e) {
-				 alert('THISError: ' + e.name);
+				 alert('Error: ' + e.name);
 			 }
 		 }
 	 };
@@ -54,15 +51,11 @@ function sendJSONXMLHTTPRequest(url, objects, callback) {
 		 xhr.overrideMimeType("application/json");
 		 xhr.setRequestHeader("Accept", "application/json");
 		 xhr.send(JSON.stringify(objects));
-	 }
+	}
 	else { //GET
 		 xhr.open('GET', url);
 		 xhr.send();
-	 }
-		 
-		 //XXX: POST to a URL
-		 //XXX: set the mimetype and the accept headers!
-		 // Remember to use application/json ! 
+	} 
 }	 
 
 
@@ -146,15 +139,12 @@ function getPosition(e) {
 	}
 }
 
-
+//add/update new entity and send a XHTML Request that updates the entity
 function addEntity(entity, data) {
     world[entity] = data;
-	//window.alert(JSON.stringify(data));
-	sendJSONXMLHTTPRequest('/entity/'+ entity, data, function(){})
-    //XXX: Send a XHTML Request that updates the entity you just  modified!
+	sendJSONXMLHTTPRequest('/entity/'+ entity, data, function(data){});
 	drawNextFrame(); // (but should we?) this just signals there is something to draw
-	//drawFrame(); //PLAY AROUND WITH THESE NOT SURE IF MAKES DIFFERENCE
-
+	//PLAY AROUND WITH THESE NOT SURE IF MAKES DIFFERENCE
 }
 
 var counter = 0;
@@ -277,7 +267,7 @@ mouse.mousedraggers.push(function(x,y,clicked,e) {
 
 
 function update() {
-	//XXX: TODO Get the world from the webservice using a XMLHTTPRequest
+	//Get the world from the webservice
 	sendJSONXMLHTTPRequest('/world',null,function (data){
          world = data; //update our world to be what we got
 		 drawNextFrame();// signal something to draw
